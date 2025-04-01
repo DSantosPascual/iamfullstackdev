@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from './Home.jsx'
 import ItemDetailPage from "./ItemDetailPage.jsx";
+import InputCreate from "./InputCreate.jsx";
 
 
 const App = () => {
@@ -27,13 +28,15 @@ useEffect(() => {
       <div>
         <nav>
           <Link to="/">Inicio</Link>
-     
+          <Link to="/create">Crear nueva task</Link>
+
         </nav>
         {data === null 
         ? (<div>cargando...</div>) 
         : 
           <Routes>
             <Route path="/" element={<Home data={data} />} />
+            <Route path="/create" element={<InputCreate />} />
            
             {data.map(item => (
               <Route key={item._id} path={`/${item._id}`} element={<ItemDetailPage item={item}/>} />
@@ -44,6 +47,7 @@ useEffect(() => {
         
       </div>
     </Router>
+    
   )
 };
 
