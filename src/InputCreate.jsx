@@ -1,49 +1,41 @@
-import React, {useState} from "react";
+const InputCreate = ({ refreshTasks }) => {
+  const [task, setTask] = useState('');
+  const [message, setMessage] = useState('');
 
-const InputCreate = () => {
-    const [task, setTask] = useState('');
-    const [message, setMessage] = useState('')
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = { title: task };
 
-    const handleInput = (e) => {
-        setTask(e.target.value)
+    try {
+      const response = await fetch('http://localhost:3000/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setTask('');
+        setMessage('Se ha añadido una nueva Task a la BBDD');
+        refreshTasks(); // <--- Actualiza la lista de tareas
+      } else {
+        setMessage('Error, no se ha podido añadir una nueva Task');
+      }
+    } catch (error) {
+      setMessage(error.message);
     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const payload = {title:task};
-
-        try{
-            const response = await fetch('http://localhost:3000/create', {
-                method: 'POST', // Método HTTP
-                headers: {
-                  'Content-Type': 'application/json', // Indicamos que el contenido es JSON
-                },
-                body: JSON.stringify(payload), // Convertimos el payload de JS a JSON
-              })
-              if(response.ok){
-                setTask('')
-                setMessage('Se ha añadido una nueva Task a la BBDD')
-              }else{
-                setMessage('Error, no se ha podido añadir una nueva Task')
-    
-              }
-        }catch (error){
-            setMessage(error.message)
-        }
-        
-    }
-
-    return (
-      <>
-        <form onSubmit={handleSubmit}>
-            <input type='text' value={task} onChange={handleInput} placeholder="Introduce una tarea"></input>
-            <button type='submit'>Add task</button>
-        </form>
-        {message && <p>{message}</p>}
-      </>
-   
-    );
   };
-  
-  export default InputCreate;
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={task} onChange={(e) => setTask(e.target.value)} placeholder="Introduce una tarea" />
+        <button type="submit">Add task</button>
+      </form>
+      {message && <p>{message}</p>}
+    </>
+  );
+};
+
+export default InputCreate;
+
   

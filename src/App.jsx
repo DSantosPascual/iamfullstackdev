@@ -36,7 +36,8 @@ useEffect(() => {
         : 
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/create" element={<InputCreate />} />
+            <Route path="/create" element={<InputCreate refreshTasks={fetchData} />} />
+
            
             {data.map(item => (
               <Route key={item._id} path={`/${item._id}`} element={<ItemDetailPage item={item}/>} />
