@@ -25,15 +25,9 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-nav{
-  display: flex;
-  gap:25px
 }
 
 h1 {
